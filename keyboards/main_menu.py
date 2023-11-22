@@ -1,7 +1,7 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
-def main_menu():
+async def main_menu():
     button_1 = InlineKeyboardButton(
         text='🚀Забронировать',
         callback_data='to_book'

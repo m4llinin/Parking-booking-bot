@@ -24,5 +24,5 @@ async def find_nearest_parking(lat: float, lon: float):
             distance = 6371.0 * c
             correct_points.append(pack(point.id, distance))
 
-    correct_points.sort(key=lambda x: x[1])
-    return correct_points[:5]
+    correct_points.sort(key=lambda x: x[-1])
+    return correct_points[:10]
