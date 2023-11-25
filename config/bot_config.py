@@ -5,12 +5,12 @@ import logging
 
 
 load_dotenv()
-API_TOKEN = os.getenv('API_TOKEN')
+API_TOKEN = '6952792259:AAFDRY9WGl_I_3a8m7EfvlOIS-Vlyss3AH4'
 
-IP = os.getenv('IP')
-PGUSER = os.getenv('PGUSER')
-PGPASSWORD = os.getenv('PGPASSWORD')
-DATABASE = os.getenv('DATABASE')
+IP='localhost'
+PGUSER='postgres'
+PGPASSWORD=''
+DATABASE='parking'
 
 POSTGRES_URI = F'postgresql://{PGUSER}:{PGPASSWORD}@{IP}/{DATABASE}'
 
