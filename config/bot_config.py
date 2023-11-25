@@ -6,6 +6,7 @@ import logging
 
 load_dotenv()
 API_TOKEN = '6952792259:AAFDRY9WGl_I_3a8m7EfvlOIS-Vlyss3AH4'
+PAYMENTS_TOKEN = '1744374395:TEST:52c587d8931cbbc35f86'
 
 IP='localhost'
 PGUSER='postgres'

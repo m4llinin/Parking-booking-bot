@@ -1,8 +1,15 @@
 import asyncio
 
+from aiogram import types
+
+import config
+import logging
+
+from aiogram.types.message import ContentType
+
 from aiogram.types import BotCommand
 
-from config.bot_config import dp, bot
+from config.bot_config import dp, bot, PAYMENTS_TOKEN
 from handlers import register_user_commands
 from handlers.make_booking import register_make_booking_commands
 from utils.dp_api.db_gino import on_startup, db
@@ -48,25 +55,44 @@ if __name__ == "__main__":
     except (KeyboardInterrupt, SystemExit):
         print("Bot stopped")
 
+logging.basicConfig(level=logging.INFO)
 
-import aiogram
-import aiogram.types as types
+PRICE = types.LabeledPrice(label="Подписка на 1 месяц", amount=500 * 100)  # в копейках (руб)
 
-TOKEN = 'YOUR_BOT_TOKEN'
-bot = aiogram.Bot(token=TOKEN)
-dp = aiogram.Dispatcher(bot)
 
-@dp.message_handler(commands=['start'])
-async def start(message: types.Message):
-    keyboard = types.InlineKeyboardMarkup()
-    pay_button = types.InlineKeyboardButton(text='Оплатить', callback_data='pay')
-    keyboard.add(pay_button)
-    await message.answer('Добро пожаловать! Выберите опцию:', reply_markup=keyboard)
+@dp.message_handler(commands=['buy'])
+async def buy(message: types.Message):
+    if PAYMENTS_TOKEN.split(':')[1] == 'TEST':
+        await bot.send_message(message.chat.id, "Тестовый платеж!!!")
 
-@dp.callback_query_handler(lambda c: c.data == 'pay')
-async def pay_parking(callback_query: types.CallbackQuery):
-    payment_link = generate_payment_link()  # функция для генерации ссылки на оплату
-    await callback_query.message.edit_text(f'Для оплаты парковочного места перейдите по ссылке: {payment_link}')
+    await bot.send_invoice(message.chat.id,
+                           title="Подписка на бота",
+                           description="Активация подписки на бота на 1 месяц",
+                           provider_token=PAYMENTS_TOKEN,
+                           currency="rub",
+                           photo_url="https://www.aroged.com/wp-content/uploads/2022/06/Telegram-has-a-premium-subscription.jpg",
+                           photo_width=416,
+                           photo_height=234,
+                           photo_size=416,
+                           is_flexible=False,
+                           prices=[PRICE],
+                           start_parameter="one-month-subscription",
+                           payload="test-invoice-payload")
 
-if __name__ == '__main__':
-    aiogram.executor.start_polling(dp)
+
+# pre checkout  (must be answered in 10 seconds)
+@dp.pre_checkout_query_handler(lambda query: True)
+async def pre_checkout_query(pre_checkout_q: types.PreCheckoutQuery):
+    await bot.answer_pre_checkout_query(pre_checkout_q.id, ok=True)
+
+
+# successful payment
+@dp.message_handler(content_types=ContentType.SUCCESSFUL_PAYMENT)
+async def successful_payment(message: types.Message):
+    print("SUCCESSFUL PAYMENT:")
+    payment_info = message.successful_payment.to_python()
+    for k, v in payment_info.items():
+        print(f"{k} = {v}")
+
+    await bot.send_message(message.chat.id,
+                           f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!!!")

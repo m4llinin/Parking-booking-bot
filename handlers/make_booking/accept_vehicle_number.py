@@ -27,7 +27,7 @@ async def accept_vehicle_number(message: Message, state: FSMContext):
             end_time=datetime.strptime(data['end_time'], "%H:%M")
         )
         button = InlineKeyboardButton(
-            text="В главное меню", callback_data="back_to_main"
+            text="Оплатить говно", callback_data="buy"
         )
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[button]])
         await state.clear()
