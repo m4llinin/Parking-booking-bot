@@ -1,4 +1,3 @@
-from keyboards.paginator.CallbackDataClassPaginator import Parking
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 
@@ -8,7 +7,7 @@ async def create_parking_paginator_keyboard(parking_id: int, count: int, state: 
     page = data['parking_page']
 
     kb = [
-        [InlineKeyboardButton(text="Забронировать", callback_data=Parking(id=parking_id).pack())],
+        [InlineKeyboardButton(text="Выбрать место", callback_data=f"parking_{parking_id}")],
         [
             InlineKeyboardButton(text="⬅", callback_data="back_parking_page"),
             InlineKeyboardButton(text="{}/{}".format(page, count), callback_data='just_page'),

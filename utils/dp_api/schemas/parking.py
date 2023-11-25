@@ -1,4 +1,4 @@
-from sqlalchemy import Column, sql, Sequence, Integer, Float
+from sqlalchemy import Column, sql, Sequence, Integer, Float, ARRAY, BOOLEAN
 from utils.dp_api.db_gino import TimedBaseModel
 
 
@@ -9,5 +9,6 @@ class Parking(TimedBaseModel):
     latitude = Column(Float, nullable=False)
     all_places = Column(Integer, nullable=False)
     free_places = Column(Integer, nullable=False)
+    places = Column(ARRAY(BOOLEAN), nullable=False)
 
     query: sql.select
