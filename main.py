@@ -1,13 +1,13 @@
 import asyncio
 
-from aiogram import types
+from aiogram import types, F
 
 import config
 import logging
 
 from aiogram.types.message import ContentType
 
-from aiogram.types import BotCommand
+from aiogram.types import BotCommand, CallbackQuery
 
 from config.bot_config import dp, bot, PAYMENTS_TOKEN
 from handlers import register_user_commands
@@ -60,12 +60,12 @@ logging.basicConfig(level=logging.INFO)
 PRICE = types.LabeledPrice(label="Подписка на 1 месяц", amount=500 * 100)  # в копейках (руб)
 
 
-@dp.message_handler(commands=['buy'])
-async def buy(message: types.Message):
+@dp.callback_query(F.data == 'buy')
+async def buy(callback: CallbackQuery):
     if PAYMENTS_TOKEN.split(':')[1] == 'TEST':
-        await bot.send_message(message.chat.id, "Тестовый платеж!!!")
+        await bot.send_message(callback.chat.id, "Тестовый платеж!!!")
 
-    await bot.send_invoice(message.chat.id,
+    await bot.send_invoice(callback.chat.id,
                            title="Подписка на бота",
                            description="Активация подписки на бота на 1 месяц",
                            provider_token=PAYMENTS_TOKEN,
