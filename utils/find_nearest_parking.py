@@ -25,18 +25,19 @@ async def find_nearest_parking(lat: float, lon: float, state: FSMContext):
     parking = [await db.select_parking(Id) for Id in parking_id]
 
     for point in parking:
-        lat2, lon2 = radians(lat), radians(lon)
-        lat1, lon1 = radians(point.latitude), radians(point.longitude)
+        if point:
+            lat2, lon2 = radians(lat), radians(lon)
+            lat1, lon1 = radians(point.latitude), radians(point.longitude)
 
-        dlon = lon2 - lon1
-        dlat = lat2 - lat1
+            dlon = lon2 - lon1
+            dlat = lat2 - lat1
 
-        # Вычисление формулы гаверсинусов
-        a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
-        c = 2 * atan2(sqrt(a), sqrt(1 - a))
+            # Вычисление формулы гаверсинусов
+            a = sin(dlat / 2) ** 2 + cos(lat1) * cos(lat2) * sin(dlon / 2) ** 2
+            c = 2 * atan2(sqrt(a), sqrt(1 - a))
 
-        distance = 6371.0 * c
-        correct_points.append(pack(point.id, distance))
+            distance = 6371.0 * c
+            correct_points.append(pack(point.id, distance))
 
     correct_points.sort(key=lambda x: x[-1])
     return correct_points[:10]

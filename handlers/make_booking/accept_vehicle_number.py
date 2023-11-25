@@ -31,7 +31,7 @@ async def accept_vehicle_number(message: Message, state: FSMContext):
         )
         keyboard = InlineKeyboardMarkup(inline_keyboard=[[button]])
         await state.clear()
-        await state.update_data(parking_page=1, booking_page=1)
+        await state.update_data(parking_page=1, booking_page=1, user_id=message.from_user.id)
         await message.answer(text="Ваша бронь успешно создана, приезжайте вовремя", reply_markup=keyboard)
     else:
         await message.answer(text="Номер автомобился отправлен неправильно")

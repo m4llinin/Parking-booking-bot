@@ -5,5 +5,5 @@ from keyboards.main_menu import main_menu
 
 
 async def start(message: Message, state: FSMContext):
-    await state.update_data(parking_page=1, booking_page=1)
+    await state.update_data(parking_page=1, booking_page=1, user_id=message.from_user.id)
     await message.answer(text=lexicon['start'], reply_markup=await main_menu())
