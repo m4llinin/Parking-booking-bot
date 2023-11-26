@@ -19,7 +19,11 @@ async def booking_pay(callback: CallbackQuery, state: FSMContext):
         photo_width=256,
         photo_height=256,
         prices=[LabeledPrice(label='Парковка', amount=3000)],
-        payload="test-invoice-payload", )
+        payload="test-invoice-payload")
+
+    await callback.message.answer(text='В меню', reply_markup=InlineKeyboardMarkup(
+        inline_keyboard=[
+            [InlineKeyboardButton(text='Назад', callback_data='my_booking')]]))
 
 
 async def help_route(callback: CallbackQuery, state: FSMContext):
