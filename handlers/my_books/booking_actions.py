@@ -1,8 +1,9 @@
+from aiogram import types
 from aiogram.fsm.context import FSMContext
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.booking_paginator import create_booking_paginator_keyboard
 
-from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, Invoice, LabeledPrice
+from aiogram.types import CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, LabeledPrice
 import utils.db_api.db_commands as commands
 
 
@@ -12,22 +13,35 @@ async def booking_pay(callback: CallbackQuery, state: FSMContext):
     last_message = data['last_message']
     await last_message.delete()
 
-    button1 = InlineKeyboardButton(text="Заплатить", pay=True)
+    button1 = InlineKeyboardButton(text="Оплатить", pay=True)
     button2 = InlineKeyboardButton(text="Назад", callback_data="back_to_my_booking")
     keyboard = InlineKeyboardMarkup(inline_keyboard=[[button1], [button2]])
 
     message = await callback.message.answer_invoice(
         title="Оплата парковки",
         description="Оплата брони парковочного места",
-        provider_token='1744374395:TEST:7f33dc14d937df60fcec',
+        provider_token='1744374395:TEST:7931d38eb15aa37e4b26',
         currency="rub",
         photo_url="https://cdn.iconscout.com/icon/premium/png-512-thumb/pay-parking-2607820-2181787.png?f=webp&w=256",
-        is_flexible=True,
+        is_flexible=False,
         photo_width=256,
         photo_height=256,
-        prices=[LabeledPrice(label='Парковка', amount=3000)],
-        payload="test-invoice-payload", reply_markup=keyboard)
+        prices=[LabeledPrice(label='Парковка', amount=200 * 100)],
+        start_parameter="parking-booking",
+        payload=f"booking_invoice_{data['booking_id']}",
+        need_shipping_address=False,
+        reply_markup=keyboard)
+
     await state.update_data(last_message=message)
+
+
+async def successful_payment(message: types.Message):
+    print("SUCCESSFUL PAYMENT:")
+    booking_id = int(message.successful_payment.invoice_payload.split('_')[-1])
+    booking = await commands.select_booking_by_id(booking_id)
+    await booking.update(status='paid').apply()
+    await message.answer(
+        f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!!!")
 
 
 async def help_route(callback: CallbackQuery, state: FSMContext):
