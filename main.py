@@ -16,20 +16,20 @@ async def main():
     await on_startup(db)
 
     # удаление данных
-    # await db.gino.drop_all()
+    await db.gino.drop_all()
 
     # создание таблиц
-    # await db.gino.create()
+    await db.gino.create()
 
     bot_commands = (
         ("start", "Начало работы с ботом"),
     )
 
     # Cоздание тестовых парковок
-    # await commands.add_parking(40, 60, 150, [random.randint(0, 1) for _ in range(150)])
-    # await commands.add_parking(39, 63, 100, [random.randint(0, 1) for _ in range(100)])
-    # await commands.add_parking(20, 50, 20, [random.randint(0, 1) for _ in range(20)])
-    # await commands.add_parking(73, 55, 70, [random.randint(0, 1) for _ in range(70)])
+    await commands.add_parking(40, 60, 150, [random.randint(0, 1) for _ in range(150)])
+    await commands.add_parking(39, 63, 100, [random.randint(0, 1) for _ in range(100)])
+    await commands.add_parking(20, 50, 20, [random.randint(0, 1) for _ in range(20)])
+    await commands.add_parking(73, 55, 70, [random.randint(0, 1) for _ in range(70)])
 
     commands_for_bot = []
     for cmd in bot_commands:
