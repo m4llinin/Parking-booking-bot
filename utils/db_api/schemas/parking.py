@@ -1,5 +1,5 @@
 from sqlalchemy import Column, sql, Sequence, Integer, Float, ARRAY, BOOLEAN
-from utils.dp_api.db_gino import TimedBaseModel
+from utils.db_api.db_gino import TimedBaseModel
 
 
 class Parking(TimedBaseModel):

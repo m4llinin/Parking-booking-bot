@@ -2,8 +2,8 @@ from aiogram.fsm.context import FSMContext
 from math import sin, cos, sqrt, atan2, radians
 from datetime import datetime
 
-from utils.dp_api.schemas.booking import Booking
-import utils.dp_api.db_commands as db
+from utils.db_api.schemas.booking import Booking
+import utils.db_api.db_commands as db
 
 
 async def find_nearest_parking(lat: float, lon: float, state: FSMContext):
@@ -12,7 +12,6 @@ async def find_nearest_parking(lat: float, lon: float, state: FSMContext):
 
     correct_points = []
     data = await state.get_data()
-
     free_parking = await Booking.query.where(Booking.start_date != data['start_date']).gino.all()
     free_parking += await Booking.query.where(
         Booking.start_time != datetime.strptime(data['start_time'], "%H:%M")).gino.all()

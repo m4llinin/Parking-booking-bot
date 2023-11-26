@@ -1,7 +1,7 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import Message, InlineKeyboardButton, InlineKeyboardMarkup
 from datetime import datetime
-from utils.dp_api.db_commands import add_booking
+from utils.db_api.db_commands import add_booking
 
 
 def check_vehicle_number(number: str):

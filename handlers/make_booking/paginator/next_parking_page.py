@@ -3,7 +3,7 @@ from aiogram.fsm.context import FSMContext
 
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.parking_paginator import create_parking_paginator_keyboard
-import utils.dp_api.db_commands as db
+import utils.db_api.db_commands as db
 
 
 async def next_parking_page(callback: CallbackQuery, state: FSMContext):

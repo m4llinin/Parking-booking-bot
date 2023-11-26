@@ -1,10 +1,15 @@
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from aiogram.fsm.context import FSMContext
 
+from utils.db_api.schemas.booking import Booking
+
 
 async def create_booking_paginator_keyboard(state: FSMContext):
     data = await state.get_data()
-    bookings = data['bookings']
+    bookings = await Booking.query.where(Booking.status == "waiting").where(
+        Booking.user_id == data['user_id']).gino.all()
+    await state.update_data(bookings_num=len(bookings))
+
     page = (data['booking_page'] - 1) * 3
 
     kb = []
