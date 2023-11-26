@@ -6,10 +6,10 @@ from lexicon.lexicon_ru import lexicon
 
 
 async def enter_my_booking(callback: CallbackQuery, state: FSMContext):
-    print(callback.data)
     booking_id = int(callback.data.split('_')[1])
     booking = await commands.select_booking_by_id(booking_id)
     await state.update_data(booking_id=booking_id)
+    await state.update_data(last_message=callback.message)
     status = 'Ожидание оплаты' if booking.status == 'waiting' else 'Оплачено'
     await callback.message.edit_text(text=lexicon['booking_info'].format(
         booking.id_parking, booking.vehicle_number, f'{booking.start_date} {booking.start_time}',

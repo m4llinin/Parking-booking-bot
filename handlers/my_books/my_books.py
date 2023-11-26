@@ -11,4 +11,6 @@ async def my_books(callback: CallbackQuery, state: FSMContext):
         Booking.user_id == data['user_id']).gino.all()
 
     await state.update_data(bookings=bookings)"""
-    await callback.message.edit_text(text="Ваши брони:", reply_markup=await create_booking_paginator_keyboard(state))
+    message = await callback.message.edit_text(text="Ваши брони:",
+                                               reply_markup=await create_booking_paginator_keyboard(state))
+    await state.update_data(last_message=message)

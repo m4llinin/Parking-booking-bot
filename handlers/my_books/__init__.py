@@ -8,6 +8,7 @@ from handlers.my_books.paginator.back_booking_page import back_booking_page
 from handlers.my_books.enter_my_booking import enter_my_booking
 
 from handlers.my_books.booking_actions import booking_pay, help_route, cancel_booking
+from handlers.my_books.back_to_my_booking import back_to_my_booking
 
 
 def register_my_bookings_commands(router: Router):
@@ -19,3 +20,4 @@ def register_my_bookings_commands(router: Router):
     router.callback_query.register(booking_pay, F.data == 'booking-pay')
     router.callback_query.register(help_route, F.data == 'help_route')
     router.callback_query.register(cancel_booking, F.data == 'cancel_booking')
+    router.callback_query.register(back_to_my_booking, F.data == 'back_to_my_booking')
