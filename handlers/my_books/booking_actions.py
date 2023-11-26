@@ -1,5 +1,7 @@
 from aiogram import types
 from aiogram.fsm.context import FSMContext
+
+from keyboards.main_menu import main_menu
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.booking_paginator import create_booking_paginator_keyboard
 
@@ -41,7 +43,7 @@ async def successful_payment(message: types.Message):
     booking = await commands.select_booking_by_id(booking_id)
     await booking.update(status='paid').apply()
     await message.answer(
-        f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!!!")
+        f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!")
 
 
 async def help_route(callback: CallbackQuery, state: FSMContext):
