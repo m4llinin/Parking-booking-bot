@@ -4,7 +4,7 @@ from aiogram.fsm.context import FSMContext
 from utils.find_nearest_parking import find_nearest_parking
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.parking_paginator import create_parking_paginator_keyboard
-import utils.dp_api.db_commands as db
+import utils.db_api.db_commands as db
 
 
 async def select_end_time(callback: CallbackQuery, state: FSMContext):

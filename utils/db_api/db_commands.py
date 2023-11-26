@@ -1,7 +1,7 @@
 from asyncpg import UniqueViolationError
 
-from utils.dp_api.schemas.booking import Booking
-from utils.dp_api.schemas.parking import Parking
+from utils.db_api.schemas.booking import Booking
+from utils.db_api.schemas.parking import Parking
 
 
 # Выбор одной брони
@@ -19,6 +19,11 @@ async def select_booking(user_id: int,
 # Выбор всех броней пользователя
 async def select_all_booking_for_user_id(user_id: int):
     booking = await Booking.query.where(Booking.user_id == user_id).gino.all()
+    return booking
+
+
+async def select_booking_by_id(booking_id: int):
+    booking = await Booking.query.where(Booking.id == booking_id).gino.first()
     return booking
 
 
@@ -48,13 +53,9 @@ async def add_booking(id_parking: int,
 
 
 # Удаление брони
-async def delete_booking(user_id: int,
-                         vehicle_number: str,
-                         date: str,
-                         start_time: str,
-                         end_time: str):
+async def delete_booking(booking_id: int):
     try:
-        booking = await select_booking(user_id, vehicle_number, date, start_time, end_time)
+        booking = await select_booking_by_id(booking_id)
         if booking:
             await booking.delete()
     except UniqueViolationError:

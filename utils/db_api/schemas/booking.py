@@ -1,5 +1,5 @@
 from sqlalchemy import Column, String, sql, Sequence, Integer, BigInteger, ForeignKey, Time, Date
-from utils.dp_api.db_gino import TimedBaseModel
+from utils.db_api.db_gino import TimedBaseModel
 
 
 class Booking(TimedBaseModel):
@@ -14,4 +14,4 @@ class Booking(TimedBaseModel):
     end_time = Column(Time, nullable=False)
     status = Column(String, default='waiting')
 
-    query: sql.select
+    query: (sql.select, sql.delete, sql.update)

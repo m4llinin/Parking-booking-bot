@@ -1,7 +1,7 @@
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery
 from keyboards.paginator.parking_places_paginator import create_parking_place_paginator
-import utils.dp_api.db_commands as db
+import utils.db_api.db_commands as db
 
 
 async def select_parking(callback: CallbackQuery, state: FSMContext):

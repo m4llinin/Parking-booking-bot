@@ -6,8 +6,8 @@ from config.bot_config import dp, bot
 from handlers import register_user_commands
 from handlers.make_booking import register_make_booking_commands
 from handlers.my_books import register_my_bookings_commands
-from utils.dp_api.db_gino import on_startup, db
-import utils.dp_api.db_commands as commands
+from utils.db_api.db_gino import on_startup, db
+import utils.db_api.db_commands as commands
 import random
 
 
