@@ -1,5 +1,7 @@
 from aiogram import types
 from aiogram.fsm.context import FSMContext
+
+from keyboards.main_menu import main_menu
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.booking_paginator import create_booking_paginator_keyboard
 
