@@ -6,8 +6,7 @@ from utils.db_api.schemas.booking import Booking
 
 async def create_booking_paginator_keyboard(state: FSMContext):
     data = await state.get_data()
-    bookings = await Booking.query.where(
-        Booking.user_id == data['user_id']).gino.all()
+    bookings = await Booking.query.where(Booking.user_id == data['user_id']).gino.all()
     await state.update_data(bookings_num=len(bookings))
 
     page = (data['booking_page'] - 1) * 3

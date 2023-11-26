@@ -1,15 +1,19 @@
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+from aiogram.fsm.context import FSMContext
 
 
-async def booking_actions_kb():
-    button_0 = InlineKeyboardButton(
-        text='🆔Показать QR-код',
-        callback_data='activate_booking'
-    )
-    button_1 = InlineKeyboardButton(
-        text='💵Оплатить',
-        callback_data='booking-pay'
-    )
+async def booking_actions_kb(state: FSMContext):
+    data = await state.get_data()
+    if data['status'] != 'waiting':
+        button_1 = InlineKeyboardButton(
+            text='🆔Показать QR-код',
+            callback_data='activate_booking'
+        )
+    else:
+        button_1 = InlineKeyboardButton(
+            text='💵Оплатить',
+            callback_data='booking-pay'
+        )
     button_2 = InlineKeyboardButton(
         text='🗺️Как добраться?',
         callback_data='help_route'
@@ -22,5 +26,5 @@ async def booking_actions_kb():
         text='Назад',
         callback_data='my_booking'
     )
-    inline_kb = [[button_0],[button_1], [button_2], [button_3], [button_4]]
+    inline_kb = [[button_1], [button_2], [button_3], [button_4]]
     return InlineKeyboardMarkup(inline_keyboard=inline_kb)

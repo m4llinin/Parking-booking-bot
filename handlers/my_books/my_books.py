@@ -7,8 +7,7 @@ from keyboards.paginator.booking_paginator import create_booking_paginator_keybo
 async def my_books(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
 
-    bookings = await Booking.query.where(Booking.status == "waiting").where(
-        Booking.user_id == data['user_id']).gino.all()
+    bookings = await Booking.query.where(Booking.user_id == data['user_id']).gino.all()
 
     if bookings:
         message = await callback.message.edit_text(text="Ваши брони:",
