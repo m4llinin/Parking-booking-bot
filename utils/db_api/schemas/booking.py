@@ -14,4 +14,4 @@ class Booking(TimedBaseModel):
     end_time = Column(Time, nullable=False)
     status = Column(String, default='waiting')
 
-    query: (sql.select, sql.delete)
+    query: (sql.select, sql.delete, sql.update)

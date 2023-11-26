@@ -18,7 +18,7 @@ def register_my_bookings_commands(router: Router):
     router.callback_query.register(enter_my_booking, lambda query: query.data.startswith('booking_'))
 
     router.callback_query.register(booking_pay, F.data == 'booking-pay')
-    router.message.register(successful_payment, F.SUCCESSFUL_PAYMENT)
+    router.message.register(successful_payment, F.content_type == 'successful_payment')
 
     router.callback_query.register(help_route, F.data == 'help_route')
     router.callback_query.register(cancel_booking, F.data == 'cancel_booking')

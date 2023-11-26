@@ -1,3 +1,4 @@
+from aiogram import types
 from aiogram.fsm.context import FSMContext
 from lexicon.lexicon_ru import lexicon
 from keyboards.paginator.booking_paginator import create_booking_paginator_keyboard
@@ -27,11 +28,20 @@ async def booking_pay(callback: CallbackQuery, state: FSMContext):
         photo_height=256,
         prices=[LabeledPrice(label='Парковка', amount=200 * 100)],
         start_parameter="parking-booking",
-        payload="test-invoice-payload",
+        payload=f"booking_invoice_{data['booking_id']}",
         need_shipping_address=False,
         reply_markup=keyboard)
 
     await state.update_data(last_message=message)
+
+
+async def successful_payment(message: types.Message):
+    print("SUCCESSFUL PAYMENT:")
+    booking_id = int(message.successful_payment.invoice_payload.split('_')[-1])
+    booking = await commands.select_booking_by_id(booking_id)
+    await booking.update(status='paid').apply()
+    await message.answer(
+        f"Платеж на сумму {message.successful_payment.total_amount // 100} {message.successful_payment.currency} прошел успешно!!!")
 
 
 async def help_route(callback: CallbackQuery, state: FSMContext):
