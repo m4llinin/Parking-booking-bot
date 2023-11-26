@@ -9,7 +9,7 @@ from handlers.my_books.enter_my_booking import enter_my_booking
 
 from handlers.my_books.booking_actions import booking_pay, help_route, cancel_booking
 from handlers.my_books.back_to_my_booking import back_to_my_booking
-
+from handlers.my_books.activate_booking import activate_booking
 
 def register_my_bookings_commands(router: Router):
     router.callback_query.register(my_books, F.data == "my_booking")
@@ -21,3 +21,4 @@ def register_my_bookings_commands(router: Router):
     router.callback_query.register(help_route, F.data == 'help_route')
     router.callback_query.register(cancel_booking, F.data == 'cancel_booking')
     router.callback_query.register(back_to_my_booking, F.data == 'back_to_my_booking')
+    router.callback_query.register(activate_booking, F.data == 'activate_booking')

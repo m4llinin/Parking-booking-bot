@@ -2,6 +2,10 @@ from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 
 async def booking_actions_kb():
+    button_0 = InlineKeyboardButton(
+        text='🆔Показать QR-код',
+        callback_data='activate_booking'
+    )
     button_1 = InlineKeyboardButton(
         text='💵Оплатить',
         callback_data='booking-pay'
@@ -18,5 +22,5 @@ async def booking_actions_kb():
         text='Назад',
         callback_data='my_booking'
     )
-    inline_kb = [[button_1], [button_2], [button_3], [button_4]]
+    inline_kb = [[button_0],[button_1], [button_2], [button_3], [button_4]]
     return InlineKeyboardMarkup(inline_keyboard=inline_kb)
